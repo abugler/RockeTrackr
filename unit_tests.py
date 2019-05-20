@@ -2,6 +2,7 @@ import unittest
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import sheet_helpers
+import new_addition
 
 class TestingMethods(unittest.TestCase):
 
@@ -22,7 +23,30 @@ class TestingMethods(unittest.TestCase):
     def test_next_row(self):
         InventorySheet = self.get_spread_sheet().worksheet("Inventory")
         #This test case has to be changed over time
-        self.assertTrue(sheet_helpers.next_blank_row(InventorySheet) is 68)
+        self.assertTrue(sheet_helpers.next_blank_row(InventorySheet) is 71)
+
+    def test_add_restock(self):
+        # get spreadsheets
+        Spreadsheet = self.get_spread_sheet()
+        InventorySheet = Spreadsheet.worksheet("Inventory")
+        AdditionSheet = Spreadsheet.worksheet("Inventory Addition History")
+
+        # find the row
+        newrow = 4;
+        SKU = AdditionSheet.cell(newrow, 7).value
+        SKUCells = InventorySheet.range('A15:A'+str(InventorySheet.row_count))
+        blank_row = sheet_helpers.next_blank_row(InventorySheet)
+        for cell in SKUCells:
+            if cell.row >= blank_row:
+                self.assertTrue(False)
+            if int(cell.numeric_value) == int(SKU):
+                editingrow = cell.row
+                break
+        initial_quantity = int(InventorySheet.cell(editingrow, 3).value)
+
+        new_addition.new_addition(AdditionSheet, InventorySheet, newrow)
+        self.assertTrue(initial_quantity == (int(InventorySheet.cell(editingrow, 3).value) -
+                                             int(AdditionSheet.cell(newrow, 8).value)))
 
 if __name__ == '__main__':
     unittest.main()

@@ -21,10 +21,10 @@ OldAdditionData = AdditionHistory
 
 
 while True:
-    time.sleep(300)
-    """Handle Addition"""
-    """If a history has been cleared"""
-    if AdditionHistory.row_count < 2:
+    time.sleep(30)
+    # Handle Addition
+    # If a history has been cleared
+    if not AdditionHistory.cell(2, 1):
         OldAdditionData = AdditionHistory
     elif AdditionHistory.row_count > OldAdditionData.row_count:
         new_addition(AdditionHistory)

@@ -8,6 +8,5 @@ def next_blank_row(spreadsheet):
     while True:
         if not ACells[newrow - 1].value:
             break
-        print(newrow)
         newrow = newrow + 1
     return newrow
