@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "nustars-inventor-1558309785757",
+  "private_key_id": "ee3bf718adb4ecff3ef28a30ac2e3588cdd6af60",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDX82GetHi34p6s\ntUm0lxMm7JLn29pJuQR0MPIiTFAEuvtGqdzJpLb2XbZE63u/yIqXUxg9OpM9lu0k\nZdSYOXlJ2fwc9+dqIyNLBo7IWCv1IZoImyw094YIRFYF2bmOaXIkutIfOZ2krmEA\negj3C9PrURlyxkYdxrplxtaquOIzU/WhjpXrqX/hf+J8jVqsxp3VOmRADImF94ig\nKYugAU9VuWiijUePrMAw/p9yJMWaBr75RE2z9vGpi5g1VHecRdCvBfM7RCjJv5QD\nV2Kjb/i8Le4Au32J4zl994Crn5A6dE4AQpf97lr+l2J8nYGMQrnebrBZTwMRqZWx\na4/ERM61AgMBAAECggEAMgcdmeUoRD1ZUhxrd006cB2FSPZ7QvH8UKiYJ47zSK1C\nkhO+5O3mPvvlwmClWgAs7zKeXmzn+HAy/ugiUKOb8BpyWAmsUD/UqMhbopkekdrX\nct/z5U9kexzNquxOGupduZmYHQi9dw24xiH/WrAgR5cRpK+/RZ2ox/RA/er36DjB\ngZTpRs3gPD1hx2AkObcyEmVAkH06gOK2XaARURg3LNdGM+a4f2uuKx+oxWkIesn2\nhaoUo3xvYC7glfJDnCV/jNm6OGu5ImCv1it5A2lT2gVUlFH294FI3iSi96o/oTfd\nQISGf5EhGzIgWS4vLASc96AeE670ustjZIKi2z8/sQKBgQD5Tyl+ixmUSrjLb5Be\nEbu2dbSdaHHUuFkVDP5dOdpWud1OP9YnPY5gEz0nyYnOGXkO9yW3oJ/u3Arbgq87\nReJxGLLDhmfu2F6wH+9peg1thpb2d1b/9KS1Yxr2JB8NqT1ZY5Qgk7ZZa9lGhxpP\nW/q2MnfELVFGJZ7Z39dC+jyQrQKBgQDdvwj4hoGnnkVKLc9+HxHSE1QNg2BH/nAW\nI7cVDa3moARZzH9TI5YXOilv86R0CTEWVrQb69Cz7lYfnnCAFqqrQ6XzLfgUpLzK\nT9ILx1rRGC4ezfwFKr4b+lO95JDEmx70IitifyRKx8sgJNnD/Jq4aAUGF2LGDoe5\nlhMTVeWPKQKBgQDoBQRZAJuNpvzUV7/DzD0mUeUFmW5WyjodnTodCPpqPA/6Au8L\nFf6q6zy/CpF1fb9sbhZsDtDJO3/fSoBKaX+UQagcz7lqT3PP9eiaATz98YQNXINb\nMhMXvGQbLwK3dAnkZwg0SUQrdHOBb7rMoI1zgwRzTrmUzu5HVkq/yqMTAQKBgETt\nA4nUrWp/rMQA91UZrT1iWqcUphHaydZn5Zm6tcpRBOkwwocCMb4oiwbMcdrLnKF3\n8+YV57p2I/kSE6AM66Hulh+/szQffLtaEk0s+1KxNGzI1ER647rola0Z5dHm8bkr\nAddM8+f2sHHeYn4j/6fAVYduL3qmu5N5TZaeBYv5AoGAclRoVB1eGr35hvS5d/93\nX7NhmZ3BBvBXMIIIlxz76/iJ16XJSbV8EUsYKPWigC9mMD57oRDOduAwjBeERv/3\n6Q/qiQjo79Am1SuRuzKkxgoh3zRwzBDUWSDQ4sbvMxHInkjRMT7zZqGDruIIYjq4\nQ4XChLC6KE+TLOWthWswGDw=\n-----END PRIVATE KEY-----\n",
+  "client_email": "nustars@nustars-inventor-1558309785757.iam.gserviceaccount.com",
+  "client_id": "107522417508915690371",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/nustars%40nustars-inventor-1558309785757.iam.gserviceaccount.com"
+}
