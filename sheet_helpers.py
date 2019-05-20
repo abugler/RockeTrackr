@@ -2,13 +2,12 @@
 Returns the row number of the next blank row.
 It is assumed that a blank row will not have anything in the first column.
 """
-def next_blank_row(sheet):
+def next_blank_row(spreadsheet):
     newrow = 1
-    ACells = sheet.range('A:A')
+    ACells = spreadsheet.range('A1:A'+str(spreadsheet.row_count))
     while True:
-        if ACells[newrow - 1] is None:
-            print(newrow)
+        if not ACells[newrow - 1].value:
             break
-        newrow = newrow + 1
         print(newrow)
+        newrow = newrow + 1
     return newrow
