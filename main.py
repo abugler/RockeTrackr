@@ -37,13 +37,12 @@ OldAdditionData = AdditionHistory.get_all_records()
 cleanup_counter = 240
 print("Sheet Scraping Cycle Beginning")
 while True:
-    # check every 30 seconds, and hopefully Google Sheets API doesn't scream
-    time.sleep(30)
+    # check every 100 seconds, and hopefully Google Sheets API doesn't scream
+    time.sleep(100)
+    AdditionData = AdditionHistory.get_all_records()
+    changed = change_detection.changed_rows(OldAdditionData, AdditionData)
+    OldAdditionData = AdditionData
     print("Now we check!")
-
-    # Handle Addition
-    # find the changed rows
-    changed = change_detection.changed_rows(OldAdditionData, AdditionHistory.get_all_records())
 
     # If a history has been cleared, don't do anything
     if AdditionHistory.row_count < 3:
@@ -61,7 +60,3 @@ while True:
         cleanup_counter = 240
     else:
         cleanup_counter = cleanup_counter - 1
-
-    # Load old data for a later comparison
-    OldAdditionData = AdditionHistory.get_all_records()
-    AdditionHistory = SpreadSheet.worksheet("Inventory Addition History")

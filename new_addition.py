@@ -1,12 +1,10 @@
-import sheet_helpers
+import time
 
 """
 This function edits the InventorySheet, using the New Row from the AdditionSheet
 This should be called for every new row in the AdditionSheet
 """
 def new_addition(AdditionSheet, InventorySheet, newrow):
-
-
     sel = str(AdditionSheet.cell(newrow, 6).value)
     if str(AdditionSheet.cell(newrow, 6).value) == 'Adding a new item':
         #Find next SKU using Location
@@ -38,6 +36,7 @@ def new_addition(AdditionSheet, InventorySheet, newrow):
                 nextrow = cell.row
                 break
         if not nextrow:
+            AdditionSheet.update_cell(newrow, 7, "INVALID SKU, INVENTORY SHEET NOT CHANGED")
             return  # SKU not found, abort process
 
         # Update Rows

@@ -16,8 +16,13 @@ def changed_rows(OldRecords, NewRecords):
     if len(OldRecords) < len(NewRecords):
         row = 2
         while row - 1 < len(NewRecords):
-            if NewRecords[row - 1] not in OldRecords and NewRecords:
+            NewRow = True
+            for dict in OldRecords:
+                if NewRecords[row - 1]["Timestamp"] == dict["Timestamp"]:
+                    NewRow = False
+            if NewRow:
                 list_of_rows.append(row)
+            row = row + 1
 
     if not list_of_rows:
         return False;
