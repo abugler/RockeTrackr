@@ -5,7 +5,7 @@ It is assumed that a blank row will not have anything in the first column.
 def next_blank_row(spreadsheet):
     newrow = 1
     ACells = spreadsheet.range('A1:A'+str(spreadsheet.row_count))
-    while True:
+    while newrow <= spreadsheet.row_count:
         if not ACells[newrow - 1].value:
             break
         newrow = newrow + 1

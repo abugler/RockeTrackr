@@ -37,7 +37,7 @@ class TestingMethods(unittest.TestCase):
         SKUCells = InventorySheet.range('A15:A'+str(InventorySheet.row_count))
         blank_row = sheet_helpers.next_blank_row(InventorySheet)
         for cell in SKUCells:
-            if cell.row >= blank_row:
+            if cell.row > blank_row:
                 self.assertTrue(False)
             if int(cell.numeric_value) == int(SKU):
                 editingrow = cell.row
