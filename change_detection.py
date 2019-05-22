@@ -15,10 +15,10 @@ def changed_rows(OldRecords, NewRecords):
     # checking length is stupid, instead we should check the actual items
     if len(OldRecords) < len(NewRecords):
         row = 2
-        while row - 1 < len(NewRecords):
+        while row - 2 < len(NewRecords):
             NewRow = True
             for dict in OldRecords:
-                if NewRecords[row - 1]["Timestamp"] == dict["Timestamp"]:
+                if NewRecords[row - 2]["Timestamp"] == dict["Timestamp"]:
                     NewRow = False
             if NewRow:
                 list_of_rows.append(row)
