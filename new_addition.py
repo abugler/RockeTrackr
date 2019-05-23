@@ -37,6 +37,7 @@ def new_addition(AdditionSheet, InventorySheet, newrow):
                 break
         if not nextrow:
             AdditionSheet.update_cell(newrow, 7, "INVALID SKU, INVENTORY SHEET NOT CHANGED")
+            # TODO: send the user an email if the SKU is invalid
             return  # SKU not found, abort process
 
         # Update Rows
