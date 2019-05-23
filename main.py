@@ -4,10 +4,10 @@ import time
 import new_addition
 import cleanup
 import change_detection
-<<<<<<< HEAD
+
 import new_removal
 import move_location
-=======
+
 import borrow_or_return
 
 """
@@ -17,7 +17,6 @@ TODO: Slack Notifications
 TODO: Color coding/email/slack when qty is low
 TODO: Multiple Items input
 """
->>>>>>> 0ff08b5e4dd82d9cea26bfe6cf197d51500f1f65
 
 """Authentication"""
 scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/auth/spreadsheets'
@@ -48,27 +47,25 @@ def CleanAll():
 
 
 OldAdditionData = AdditionHistory.get_all_records()
-<<<<<<< HEAD
 OldRemovalData = RemovalHistory.get_all_records()
 OldMoveData = MovingHistory.get_all_records()
-=======
 OldTrackingData = TrackingHistory.get_all_records()
->>>>>>> 0ff08b5e4dd82d9cea26bfe6cf197d51500f1f65
+
 
 cleanup_counter = 240
 print("Sheet Scraping Cycle Beginning")
 while True:
-<<<<<<< HEAD
+
     # check every 30 seconds, and hopefully Google Sheets API doesn't scream
     time.sleep(30)
-=======
+
     # check every 100 seconds, and hopefully Google Sheets API doesn't scream
     time.sleep(5)
     AdditionData = AdditionHistory.get_all_records()
     AdditionChanged = change_detection.changed_rows(OldAdditionData, AdditionData)
     OldAdditionData = AdditionData
     AdditionData = SpreadSheet.worksheet("Inventory Addition History")
->>>>>>> 0ff08b5e4dd82d9cea26bfe6cf197d51500f1f65
+
     print("Now we check!")
 
     # Handle Addition
@@ -79,7 +76,7 @@ while True:
     # If a history has been cleared, don't do anything
     if AdditionHistory.row_count < 3:
         print("Addition Sheet is Empty. Maybe cause it got recently cleared :(")
-<<<<<<< HEAD
+
     elif changed:  # if rows are changed, something has been added
         for row in changed:
             new_addition.new_addition(AdditionHistory, InventorySheet, row + 1)
@@ -114,12 +111,6 @@ while True:
             print("Items moved in inventory!")
     else:
         print("No move requests submitted")
-=======
-    elif AdditionChanged:  # if rows are changed, something has been added
-        for row in AdditionChanged:
-            new_addition.new_addition(AdditionHistory, InventorySheet, row)
-    else:
-        print("No addition requests submitted")
 
     TrackingData = TrackingHistory.get_all_records()
     TrackingChanged = change_detection.changed_rows(OldTrackingData, TrackingData)
@@ -133,8 +124,6 @@ while True:
              borrow_or_return.borrow_return(TrackingHistory, InventorySheet, row)
     else:
         print("No tracking requests submitted")
-
->>>>>>> 0ff08b5e4dd82d9cea26bfe6cf197d51500f1f65
 
     # every 2 hours wipe the empty rows out
     if cleanup_counter == 0:
