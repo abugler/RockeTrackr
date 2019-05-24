@@ -7,11 +7,18 @@ import change_detection
 import borrow_or_return
 
 """
-TODO: Checking out items
-TODO: Moving items
+DONE: Checking out items
+DONE: Moving items
 TODO: Slack Notifications
 TODO: Color coding/email/slack when qty is low
 TODO: Multiple Items input
+TODO: Instructions for contact
+    - Lambda
+    - FERPA
+    - General Understanding of how it works
+    - Limits of Google Sheets API
+TODO: Draft List of Materials/Tools
+TODO: Delete Inventory Row
 """
 
 """Authentication"""
@@ -48,7 +55,7 @@ cleanup_counter = 240
 print("Sheet Scraping Cycle Beginning")
 while True:
     # check every 100 seconds, and hopefully Google Sheets API doesn't scream
-    time.sleep(5)
+    time.sleep(100)
     AdditionData = AdditionHistory.get_all_records()
     AdditionChanged = change_detection.changed_rows(OldAdditionData, AdditionData)
     OldAdditionData = AdditionData
@@ -67,7 +74,7 @@ while True:
     TrackingData = TrackingHistory.get_all_records()
     TrackingChanged = change_detection.changed_rows(OldTrackingData, TrackingData)
     OldTrackingData = TrackingData
-    TrackingData = SpreadSheet.worksheet("Inventory Addition History")
+    TrackingData = SpreadSheet.worksheet("Inventory Tracking History")
 
     if TrackingData.row_count < 3:
         print("Tracking Sheet is Empty. Maybe cause it got recently cleared :(")
@@ -76,7 +83,6 @@ while True:
              borrow_or_return.borrow_return(TrackingHistory, InventorySheet, row)
     else:
         print("No tracking requests submitted")
-
 
     # every 2 hours wipe the empty rows out
     if cleanup_counter == 0:
