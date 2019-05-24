@@ -20,5 +20,5 @@ def find_item_from_sku(worksheet, SKU):
     SKUS = worksheet("A15:A"+int(worksheet.row_count))
     for SKUCell in SKUS:
         if int(SKUCell.value) == SKU:
-            return str(worksheet.acell("B"+str(SKUCell.row)).value)
+            return worksheet.acell("B"+str(SKUCell.row))
     return False

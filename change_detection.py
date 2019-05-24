@@ -4,7 +4,6 @@ If no change is detected, False is returned
 If a change is detected, and List of changed rows will be returned
 """
 def changed_rows(OldRecords, NewRecords):
-    row = len(OldRecords)
     list_of_rows = []
 
     # i'm literally just checking length

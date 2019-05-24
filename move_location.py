@@ -1,32 +1,32 @@
 import sheet_helpers
+import slack_notif
 
-def move_location(MoveSheet, InventorySheet, newrow):
-    nextrow = None
-
-    # Find the row corresponding with the SKU
-    SKU = MoveSheet.cell(newrow, 2).value
-    SKUCells = InventorySheet.range('A15:A' + str(InventorySheet.row_count))
-    for cell in SKUCells:
-        if int(cell.value) == int(SKU):
-            nextrow = cell.row
-            break
+def move_location(MoveSheet, InventorySheet, NewRowIndex):
+    #Newrow: [TimeStamp(0), SKU(1), NewLocation(2), Email(3)
+    NewRow = MoveSheet.range("A"+NewRowIndex+":D"+NewRowIndex)
+    ItemCell = sheet_helpers.find_item_from_sku(InventorySheet, int(NewRow[1]))
+    nextrow = ItemCell.row
     if not nextrow:
-        MoveSheet.update_cell(newrow, 2, "INVALID SKU, INVENTORY SHEET NOT CHANGED")
+        MoveSheet.update_cell(NewRowIndex, 2, "INVALID SKU, INVENTORY SHEET NOT CHANGED")
         return  # SKU not found, abort process
 
     # Find new SKU
     # Change this to reflect new doc info
     # Refer to new addition
-    Location = MoveSheet.cell(newrow, 3).value
+    Location = NewRow[2]
     Location_Inventory = InventorySheet.cell(nextrow, 5).value
+
 
     ItemCells = InventorySheet.range('B1:B14')
     NextSKUCell = None
     for cell in ItemCells:
         if Location == cell.value:
             NextSKUCell = cell
+    #NextSKUCell should NOT be None at this point
+
     NewSKU = InventorySheet.cell(NextSKUCell.row, 6).value
 
     if Location != Location_Inventory:
         InventorySheet.update_cell(nextrow, 1, NewSKU)
         InventorySheet.update_cell(nextrow, 5, Location)
+    slack_notif.MovingPost(ItemCells.value, Location)

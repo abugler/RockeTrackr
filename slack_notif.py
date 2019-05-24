@@ -38,18 +38,18 @@ def ReturnPost(Name, Quantity, Item):
 
 def RemovalPost(Quantity, Item, Reason):
     json_data = {
-        "text": str(Quantity) + Item+ " have been removed from the Garage, as they have been " + Reason +"!"
+        "text": str(Quantity) + str(Item) + " have been removed from the Garage, as they have been " + str(Reason) +"!"
     }
     post(json_data)
 
 def AddedItemPost(Quantity, Item):
     json_data = {
-        "text": str(Quantity) + Item + " have been added to the Inventory."
+        "text": str(Quantity) + str(Item) + " have been added to the Inventory."
     }
     post(json_data)
 
 def MovingPost(Item, Location):
     json_data = {
-        "text": Item + "has been moved to "+ Location+"."
+        "text": str(Item) + "has been moved to "+ str(Location)+"."
     }
     post(json_data)

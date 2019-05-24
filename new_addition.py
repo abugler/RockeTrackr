@@ -1,14 +1,16 @@
 import time
-
+import slack_notif
+import sheet_helpers
 """
 This function edits the InventorySheet, using the New Row from the AdditionSheet
 This should be called for every new row in the AdditionSheet
 """
-def new_addition(AdditionSheet, InventorySheet, newrow):
-    sel = str(AdditionSheet.cell(newrow, 6).value)
-    if str(AdditionSheet.cell(newrow, 6).value) == 'Adding a new item':
+def new_addition(AdditionSheet, InventorySheet, NewRowIndex):
+    # NewRow has: [TimeStamp(0), Email(1), Name Of Item(2), Qty Added(3), Location(4), Location(5), Restocking/Adding(6), Qty Restocking(7)]
+    NewRow = AdditionSheet.range("A"+NewRowIndex+":H"+NewRowIndex)
+    if str(NewRow[5].value) == 'Adding a new item':
         #Find next SKU using Location
-        Location = AdditionSheet.cell(newrow, 5).value
+        Location = NewRow[4].value
         ItemCells = InventorySheet.range('B1:B14')
         NextSKUCell = None
         for cell in ItemCells:
@@ -19,30 +21,31 @@ def new_addition(AdditionSheet, InventorySheet, newrow):
         # Add New Row
         InventorySheet.append_row([
             int(SKU),
-            AdditionSheet.cell(newrow, 3).value,
-            int(AdditionSheet.cell(newrow, 4).value),            int(AdditionSheet.cell(newrow, 4).value),
+            NewRow[4].value,
+            int(NewRow[3].value),
+            int(NewRow[3].value),
             Location
         ])
-
-    elif str(AdditionSheet.cell(newrow, 6).value) == 'Restocking an item':
+        slack_notif.AddedItemPost(NewRow[3].value, NewRow[4].value)
+    elif str(NewRow[5].value) == 'Restocking an item':
         nextrow = None
-
         # Find the row corresponding with the SKU
-        SKU = AdditionSheet.cell(newrow, 7).value
+        SKU = NewRow[6].value
         SKUCells = InventorySheet.range('A15:A'+str(InventorySheet.row_count))
         for cell in SKUCells:
             if int(cell.value) == int(SKU):
                 nextrow = cell.row
                 break
         if not nextrow:
-            AdditionSheet.update_cell(newrow, 7, "INVALID SKU, INVENTORY SHEET NOT CHANGED")
+            AdditionSheet.update_cell(NewRow, 7, "INVALID SKU, INVENTORY SHEET NOT CHANGED")
             # TODO: send the user an email if the SKU is invalid
             return  # SKU not found, abort process
 
         # Update Rows
         InventorySheet.update_cell(nextrow, 3,
                                    int(InventorySheet.cell(nextrow, 3).value)
-                                   + int(AdditionSheet.cell(newrow, 8).value))
+                                   + int(AdditionSheet.cell(NewRow, 8).value))
         InventorySheet.update_cell(nextrow, 4,
                                    int(InventorySheet.cell(nextrow, 4).value)
-                                   + int(AdditionSheet.cell(newrow, 8).value))
+                                   + int(AdditionSheet.cell(NewRow, 8).value))
+        slack_notif.AddedItemPost(NewRow[7].value, sheet_helpers.find_item_from_sku(InventorySheet, SKU).value)

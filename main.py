@@ -77,15 +77,18 @@ while True:
 
     # Handle Addition
     # find the changed rows
+    AdditionData = AdditionHistory.get_all_records()
+    AdditionChanged = change_detection.changed_rows(OldAdditionData, AdditionData)
+    AdditionHistory = SpreadSheet.worksheet("Inventory Addition History")
+    OldAdditionData = AdditionData
 
-    changed = change_detection.changed_rows(OldAdditionData, AdditionHistory.get_all_records())
 
+    InventorySheet = SpreadSheet.worksheet("Inventory")
     # If a history has been cleared, don't do anything
     if AdditionHistory.row_count < 3:
         print("Addition Sheet is Empty. Maybe cause it got recently cleared :(")
-
-    elif changed:  # if rows are changed, something has been added
-        for row in changed:
+    elif AdditionChanged:  # if rows are changed, something has been added
+        for row in AdditionChanged:
             new_addition.new_addition(AdditionHistory, InventorySheet, row + 1)
             print("Items added to inventory!")
     else:
@@ -95,25 +98,31 @@ while True:
 
     # Handle Removal
     # find the removed rows
-    InventorySheet = SpreadSheet.worksheet("Inventory")
-    changed_removal = change_detection.changed_rows(OldRemovalData, RemovalHistory.get_all_records())
+    RemovalData = RemovalHistory.get_all_records()
+    RemovalChanged = change_detection.changed_rows(OldRemovalData, RemovalData)
+    RemovalHistory = SpreadSheet.worksheet("Inventory Removal History")
+    OldRemovalData = RemovalData
 
+    InventorySheet = SpreadSheet.worksheet("Inventory")
     if RemovalHistory.row_count < 3:
         print("Removal Sheet is Empty. Maybe cause it got recently cleared :(")
-    elif changed_removal:  # if rows are changed, something has been added
-        for row in changed_removal:
+    elif RemovalChanged:  # if rows are changed, something has been added
+        for row in RemovalChanged:
             new_removal.new_removal(RemovalHistory, InventorySheet, row + 1)
             print("Items removed from inventory!")
     else:
         print("No removal requests submitted")
 
-    InventorySheet = SpreadSheet.worksheet("Inventory")
-    changed_moved = change_detection.changed_rows(OldMoveData, MovingHistory.get_all_records())
+    MoveData = MovingHistory.get_all_records()
+    MovingChanged = change_detection.changed_rows(OldMoveData, MoveData)
+    MovingHistory = SpreadSheet.worksheet("Moving Locations History")
+    OldMoveData = MoveData
 
+    InventorySheet = SpreadSheet.worksheet("Inventory")
     if MovingHistory.row_count < 3:
         print("Moving Sheet is Empty. Maybe cause it got recently cleared :(")
-    elif changed_moved:  # if rows are changed, something has been added
-        for row in changed_moved:
+    elif MovingChanged:  # if rows are changed, something has been added
+        for row in MovingChanged:
             move_location.move_location(MovingHistory, InventorySheet, row + 1)
             print("Items moved in inventory!")
     else:
@@ -121,8 +130,8 @@ while True:
 
     TrackingData = TrackingHistory.get_all_records()
     TrackingChanged = change_detection.changed_rows(OldTrackingData, TrackingData)
-    OldTrackingData = TrackingData
     TrackingData = SpreadSheet.worksheet("Inventory Tracking History")
+    OldTrackingData = TrackingData
 
     if TrackingData.row_count < 3:
         print("Tracking Sheet is Empty. Maybe cause it got recently cleared :(")
@@ -138,11 +147,3 @@ while True:
         cleanup_counter = 240
     else:
         cleanup_counter = cleanup_counter - 1
-
-    # Load old data for a later comparison
-    OldAdditionData = AdditionHistory.get_all_records()
-    AdditionHistory = SpreadSheet.worksheet("Inventory Addition History")
-    OldRemovalData = RemovalHistory.get_all_records()
-    RemovalHistory = SpreadSheet.worksheet("Inventory Removal History")
-    OldMoveData = MovingHistory.get_all_records()
-    MovingHistory = SpreadSheet.worksheet("Moving Locations History")

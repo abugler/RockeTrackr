@@ -1,3 +1,4 @@
+import slack_notif
 import sheet_helpers
 
 """
@@ -17,6 +18,7 @@ def new_removal(RemovalSheet, InventorySheet, newrow):
     if not nextrow:
         return  # SKU not found, abort process
 
+
     # Update Rows
     InventorySheet.update_cell(nextrow, 3,
                                 max(0, int(InventorySheet.cell(nextrow, 4).value) -
@@ -24,3 +26,6 @@ def new_removal(RemovalSheet, InventorySheet, newrow):
     InventorySheet.update_cell(nextrow, 4,
                                max(0, int(InventorySheet.cell(nextrow, 4).value) -
                                    int(RemovalSheet.cell(newrow, 4).value)))
+    slack_notif.RemovalPost(RemovalSheet.cell(newrow, 4).value,
+                            sheet_helpers.find_item_from_sku(InventorySheet, int(SKU)).value,
+                            RemovalSheet.cell(newrow, 5).value)
