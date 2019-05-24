@@ -20,8 +20,7 @@ def new_addition(AdditionSheet, InventorySheet, newrow):
         InventorySheet.append_row([
             int(SKU),
             AdditionSheet.cell(newrow, 3).value,
-            int(AdditionSheet.cell(newrow, 4).value),
-            int(AdditionSheet.cell(newrow, 4).value),
+            int(AdditionSheet.cell(newrow, 4).value),            int(AdditionSheet.cell(newrow, 4).value),
             Location
         ])
 
