@@ -3,7 +3,7 @@ import slack_notif
 
 def move_location(MoveSheet, InventorySheet, NewRowIndex):
     #Newrow: [TimeStamp(0), SKU(1), NewLocation(2), Email(3)
-    NewRow = MoveSheet.range("A"+NewRowIndex+":D"+NewRowIndex)
+    NewRow = MoveSheet.range("A"+str(NewRowIndex)+":D"+str(NewRowIndex))
     ItemCell = sheet_helpers.find_item_from_sku(InventorySheet, int(NewRow[1]))
     nextrow = ItemCell.row
     if not nextrow:
@@ -24,7 +24,7 @@ def move_location(MoveSheet, InventorySheet, NewRowIndex):
             NextSKUCell = cell
     #NextSKUCell should NOT be None at this point
 
-    NewSKU = InventorySheet.cell(NextSKUCell.row, 6).value
+    NewSKU = InventorySheet.cell(NextSKUCell.row, 7).value
 
     if Location != Location_Inventory:
         InventorySheet.update_cell(nextrow, 1, NewSKU)

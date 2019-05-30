@@ -7,7 +7,7 @@ This should be called for every new row in the AdditionSheet
 """
 def new_addition(AdditionSheet, InventorySheet, NewRowIndex):
     # NewRow has: [TimeStamp(0), Email(1), Name Of Item(2), Qty Added(3), Location(4), Location(5), Restocking/Adding(6), Qty Restocking(7)]
-    NewRow = AdditionSheet.range("A"+NewRowIndex+":H"+NewRowIndex)
+    NewRow = AdditionSheet.range("A"+str(NewRowIndex)+":H"+str(NewRowIndex))
     if str(NewRow[5].value) == 'Adding a new item':
         #Find next SKU using Location
         Location = NewRow[4].value
@@ -16,15 +16,16 @@ def new_addition(AdditionSheet, InventorySheet, NewRowIndex):
         for cell in ItemCells:
             if Location == cell.value:
                 NextSKUCell = cell
-        SKU = InventorySheet.cell(NextSKUCell.row, 6).value
+        SKU = InventorySheet.cell(NextSKUCell.row, 7).value
 
         # Add New Row
         InventorySheet.append_row([
             int(SKU),
-            NewRow[4].value,
+            NewRow[2].value,
             int(NewRow[3].value),
             int(NewRow[3].value),
-            Location
+            Location,
+            "No"
         ])
         slack_notif.AddedItemPost(NewRow[3].value, NewRow[4].value)
     elif str(NewRow[5].value) == 'Restocking an item':
@@ -44,8 +45,8 @@ def new_addition(AdditionSheet, InventorySheet, NewRowIndex):
         # Update Rows
         InventorySheet.update_cell(nextrow, 3,
                                    int(InventorySheet.cell(nextrow, 3).value)
-                                   + int(AdditionSheet.cell(NewRow, 8).value))
+                                   + int(AdditionSheet.cell(NewRowIndex, 8).value))
         InventorySheet.update_cell(nextrow, 4,
                                    int(InventorySheet.cell(nextrow, 4).value)
-                                   + int(AdditionSheet.cell(NewRow, 8).value))
+                                   + int(AdditionSheet.cell(NewRowIndex, 8).value))
         slack_notif.AddedItemPost(NewRow[7].value, sheet_helpers.find_item_from_sku(InventorySheet, SKU).value)

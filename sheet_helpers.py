@@ -17,8 +17,8 @@ worksheet = gspread worksheet objectc
 SKU = int
 """
 def find_item_from_sku(worksheet, SKU):
-    SKUS = worksheet("A15:A"+int(worksheet.row_count))
+    SKUS = worksheet.range("A15:A"+str(worksheet.row_count))
     for SKUCell in SKUS:
-        if int(SKUCell.value) == SKU:
+        if int(SKUCell.value) == int(SKU):
             return worksheet.acell("B"+str(SKUCell.row))
     return False

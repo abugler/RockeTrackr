@@ -16,8 +16,7 @@ def post(json_data):
             % (response.status_code, response.text)
         )
 
-# TODO: Make Slack Notifications a thing for each type
-
+# DONE: Make Slack Notifications a thing for each type
 
 """
 Send a Notification to a Slack App with the most recent borrow.
@@ -38,13 +37,13 @@ def ReturnPost(Name, Quantity, Item):
 
 def RemovalPost(Quantity, Item, Reason):
     json_data = {
-        "text": str(Quantity) + str(Item) + " have been removed from the Garage, as they have been " + str(Reason) +"!"
+        "text": str(Quantity) +" "+ str(Item) + " have been removed from the Garage, as they have been " + str(Reason) +"!"
     }
     post(json_data)
 
 def AddedItemPost(Quantity, Item):
     json_data = {
-        "text": str(Quantity) + str(Item) + " have been added to the Inventory."
+        "text": str(Quantity) +" "+ str(Item) + " have been added to the Inventory."
     }
     post(json_data)
 
