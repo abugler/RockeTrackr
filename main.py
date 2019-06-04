@@ -1,3 +1,6 @@
+# This is the main function of the code that runs all of the checks.
+# So, we need to import all the tools we made to do checks.
+
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import time
@@ -9,21 +12,7 @@ import move_location
 import borrow_or_return
 import low_quantity_detection
 
-"""
-DONE: Checking out items
-DONE: Moving items
-DONE: Slack Notifications
-TODO: Color coding/email/slack when qty is low
-TODO: Multiple Items input
-TODO: Instructions for contact
-    - Lambda/Raspberry Pi
-    - FERPA
-    - General Understanding of how it works
-    - Limits of Google Sheets API
-DONE: Draft List of Materials/Tools
-DONE: Delete Inventory Row
-"""
-
+# This is used to let Google know that we aren't accessing a document that we didn't have permission to edit.
 """Authentication"""
 scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/auth/spreadsheets'
     , "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
@@ -31,6 +20,7 @@ creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
 client = gspread.authorize(creds)
 SpreadSheet = client.open_by_key("1aiCgR4WLJ158oFP6uj61B0pftav3zxtSrL6bWUPVQog")
 
+# These our all of the sheets we have in our Spreadsheet
 InventorySheet = SpreadSheet.worksheet("Inventory")
 TrackingHistory = SpreadSheet.worksheet("Inventory Tracking History")
 RemovalHistory = SpreadSheet.worksheet("Inventory Removal History")
@@ -38,7 +28,7 @@ AdditionHistory = SpreadSheet.worksheet("Inventory Addition History")
 MovingHistory = SpreadSheet.worksheet("Moving Locations History")
 LowQuantitySheet = SpreadSheet.worksheet("Low Quantities")
 
-
+# This function deletes all the empty rows in each of the sheets we have in our Spreadsheet
 def CleanAll():
     print("Starting Cleanup")
     cleanup.cleanup_rows(TrackingHistory)
@@ -54,27 +44,34 @@ def CleanAll():
     cleanup.cleanup_rows(LowQuantitySheet)
     print("Finished Cleanup")
 
-
+# Takes all the row entries that are in each sheet. This is our old data because we will be comparing this data with
+# updated data that will be given later in the script.
 OldAdditionData = AdditionHistory.get_all_records()
 OldRemovalData = RemovalHistory.get_all_records()
 OldMoveData = MovingHistory.get_all_records()
 OldTrackingData = TrackingHistory.get_all_records()
 
-
+# This counter is made so that every 4 hours, the code that cleans up the blank rows runs. This is done because the
+# rows can cause bugs.
 cleanup_counter = 240
-seconds_to_wait = 2
+seconds_to_wait = 30
 print("Sheet Scraping Cycle Beginning")
 while True:
 
     # check every 100 seconds, and hopefully Google Sheets API doesn't scream
     time.sleep(seconds_to_wait)
 
+    # Let the user know that we are checking updates on any of the sheets.
     print("Now we check!")
 
     # Handle Addition
     # find the changed rows
     AdditionHistory = SpreadSheet.worksheet("Inventory Addition History")
     AdditionData = AdditionHistory.get_all_records()
+    # Find if there is any changed rows in the Addition Sheet. It there is, that means someone filled out the form to
+    # add an item and there were items added to the inventory. The Addition Sheet doubles as a history of what people
+    # added to the inventory. Changed_addition either results in false if there is nothing that was updated or a list
+    # if there are items that are new.
     AdditionChanged = change_detection.changed_rows(OldAdditionData, AdditionData)
     OldAdditionData = AdditionData
 
@@ -82,15 +79,19 @@ while True:
     # If a history has been cleared, don't do anything
     if AdditionHistory.row_count < 3:
         print("Addition Sheet is Empty. Maybe cause it got recently cleared :(")
-    elif AdditionChanged:  # if rows are changed, something has been added
+    # This is only true is there are items in the list of new rows. If there are items in the list of new rows, that
+    # means rows are changed and something has been added.
+    elif AdditionChanged:
         for row in AdditionChanged:
             new_addition.new_addition(AdditionHistory, InventorySheet, row)
             print("Items added to inventory!")
+    # If there are no new rows and the history is not cleared that means nothing will be updated.
     else:
         print("No addition requests submitted")
 
     time.sleep(seconds_to_wait)
 
+    # The logic for checking the spread is roughly the same as the addition checks
     # Handle Removal
     # find the removed rows
     RemovalHistory = SpreadSheet.worksheet("Inventory Removal History")
