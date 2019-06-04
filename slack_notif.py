@@ -72,7 +72,13 @@ Send a Notification to a Slack App with the most recent move.
 def MovingPost(Item, Location):
     # Make a message saying that someone has borrowed an item in JSON data format.
     json_data = {
-        "text": str(Item) + "has been moved to "+ str(Location)+"."
+        "text": str(Item) + "has been moved to " + str(Location)+"."
     }
     # Send a notification over to Slack App with the message we just made.
+    post(json_data)
+
+def SendErrorToSlack(ErrorText):
+    json_data = {
+        "text": ErrorText + "\nIt's likely that the last action you took was not completed. "
+    }
     post(json_data)

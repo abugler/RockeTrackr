@@ -35,7 +35,7 @@ def new_addition(AdditionSheet, InventorySheet, NewRowIndex):
             Location,
             "No"
         ])
-        slack_notif.AddedItemPost(NewRow[3].value, NewRow[4].value)
+        slack_notif.AddedItemPost(NewRow[3].value, NewRow[2].value)
 
     # Check if the intention of the user is to restock.
     elif str(NewRow[5].value) == 'Restocking an item':

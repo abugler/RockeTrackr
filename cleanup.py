@@ -9,6 +9,7 @@ def cleanup_rows(sheet):
     while sheet.row_count > 1000:
         sheet.delete_row(3)
         print("An old row has been deleted")
+        time.sleep(1)
     row = sheet.row_count
     # This loop runs until we reach the last two rows, which is just the labels.
     while row > 2:

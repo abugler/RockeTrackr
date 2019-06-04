@@ -33,8 +33,8 @@ def low_quantity_checker(InventorySheet, LowQuantitySheet):
                 # Checks if a given SKU in the inventory matches with a given SKU in the list of SKUs we are monitoring
                 # and if the quantity of the items that we have in the garage is lower than the threshold that we
                 # established.
-                if QuantityRow["SKU"] == row["SKU"] and int(QuantityRow["Minimum Quantity"]) > int(
-                        row["Quantity in garage"]):
+                if QuantityRow["SKU"] == row["SKU"] and int(QuantityRow["Minimum Quantity"]) > \
+                        int(row["Quantity in garage"]):
                     # Update the sheet to notify people that that given item located in row number "RowIndex" is running
                     # low in quantity.
                     InventorySheet.update_cell(RowIndex, 6, "Yes")
