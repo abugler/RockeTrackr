@@ -176,11 +176,10 @@ while True:
         error_text += "\n" + str(Argument)
         slack_notif.SendErrorToSlack(error_text)
         print(error_text)
-        """
-    except , e:
-        error_text = "This is an error.  An error that the developer is not foresee has occurred. The details of the error can be found below."
+        
+    except Exception, Argument:
+        error_text = "This is an error.  An error that the developer did not foresee has occurred. The details of the error can be found below."
         error_text += "\n" + str(Argument)
         print(error_text)
         slack_notif.SendErrorToSlack(error_text)
 
-"""
