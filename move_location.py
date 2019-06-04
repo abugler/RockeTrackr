@@ -29,4 +29,4 @@ def move_location(MoveSheet, InventorySheet, NewRowIndex):
     if Location != Location_Inventory:
         InventorySheet.update_cell(nextrow, 1, NewSKU)
         InventorySheet.update_cell(nextrow, 5, Location)
-    slack_notif.MovingPost(ItemCells.value, Location)
+    slack_notif.MovingPost(ItemCell.value, Location)

@@ -62,11 +62,12 @@ OldTrackingData = TrackingHistory.get_all_records()
 
 
 cleanup_counter = 240
+seconds_to_wait = 2
 print("Sheet Scraping Cycle Beginning")
 while True:
 
     # check every 100 seconds, and hopefully Google Sheets API doesn't scream
-    time.sleep(30)
+    time.sleep(seconds_to_wait)
 
     print("Now we check!")
 
@@ -88,7 +89,7 @@ while True:
     else:
         print("No addition requests submitted")
 
-    time.sleep(30)
+    time.sleep(seconds_to_wait)
 
     # Handle Removal
     # find the removed rows
@@ -107,7 +108,7 @@ while True:
     else:
         print("No removal requests submitted")
 
-    time.sleep(30)
+    time.sleep(seconds_to_wait)
 
     MovingHistory = SpreadSheet.worksheet("Moving Locations History")
     MoveData = MovingHistory.get_all_records()
@@ -124,7 +125,7 @@ while True:
     else:
         print("No move requests submitted")
 
-    time.sleep(30)
+    time.sleep(seconds_to_wait)
 
     TrackingHistory = SpreadSheet.worksheet("Inventory Tracking History")
     TrackingData = TrackingHistory.get_all_records()
@@ -139,7 +140,7 @@ while True:
     else:
         print("No tracking requests submitted")
 
-    time.sleep(30)
+    time.sleep(seconds_to_wait)
     # check low_quantities
     low_quantity_detection.low_quantity_checker(InventorySheet, LowQuantitySheet)
 
