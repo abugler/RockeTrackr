@@ -23,7 +23,15 @@ SKU = int
 """
 def find_item_from_sku(worksheet, SKU):
     # Gets a list of SKUs in the worksheet.
-    SKUS = worksheet.range("A15:A"+str(worksheet.row_count))
+    ItemCellsCount = 0
+    InventoryRecords = worksheet.get_all_records()
+    for row in InventoryRecords:
+        if str(row["Name of item"]) == "SKU Generator":
+            ItemCellsCount = ItemCellsCount + 1
+        else:
+            break
+    FirstItemRow = ItemCellsCount + 2
+    SKUS = worksheet.range("A"+str(FirstItemRow)+":A"+str(worksheet.row_count))
     # Runs a loop through the SKUs to see if a given SKU in the list matches with the one we are finding.
     for SKUCell in SKUS:
         if int(SKUCell.value) == int(SKU):

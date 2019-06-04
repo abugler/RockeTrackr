@@ -10,13 +10,23 @@ def new_addition(AdditionSheet, InventorySheet, NewRowIndex):
     # Gets us a row of row number "NewRowIndex" of the fields above.
     NewRow = AdditionSheet.range("A"+str(NewRowIndex)+":H"+str(NewRowIndex))
     # Check if the intention of the user is to add.
+
+    # Find the range of the item cells
+    ItemCellsCount = 0
+    InventoryRecords = InventorySheet.get_all_records()
+    for row in InventoryRecords:
+        if str(row["Name of item"]) == "SKU Generator":
+            ItemCellsCount = ItemCellsCount + 1
+        else:
+            break
+    LastLocationRow = ItemCellsCount + 1
     if str(NewRow[5].value) == 'Adding a new item':
         #Find next SKU using Location
         Location = NewRow[4].value
         # Getting a list of all the possible locations
         # Change this if you are changing the number of locations by adjusting the range to match the cells where you
         # put all the locations in (one cell per location).
-        ItemCells = InventorySheet.range('B1:B14')
+        ItemCells = InventorySheet.range('E1:E'+str(LastLocationRow))
         NextSKUCell = None
 
         # Goes through each location and if there is a match with the location that want to move it to, it will find the
@@ -42,7 +52,8 @@ def new_addition(AdditionSheet, InventorySheet, NewRowIndex):
         nextrow = None
         # Find the row corresponding with the SKU
         SKU = NewRow[6].value
-        SKUCells = InventorySheet.range('A15:A'+str(InventorySheet.row_count))
+        # the range of these cells will need to be changed based off the number of
+        SKUCells = InventorySheet.range('A'+str(LastLocationRow+1) + ':A'+str(InventorySheet.row_count))
         # Loop through each SKU until we found match. When we do find a match, we take the row with the matching SKU in
         # the inventory and store it in nextrow.
         for cell in SKUCells:

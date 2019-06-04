@@ -5,7 +5,7 @@ def move_location(MoveSheet, InventorySheet, NewRowIndex):
     #Newrow: [TimeStamp(0), SKU(1), NewLocation(2), Email(3)
     NewRow = MoveSheet.range("A"+str(NewRowIndex)+":D"+str(NewRowIndex))
     # Gets us the item name that has the SKU in NewRow.
-    ItemCell = sheet_helpers.find_item_from_sku(InventorySheet, int(NewRow[1]))
+    ItemCell = sheet_helpers.find_item_from_sku(InventorySheet, int(NewRow[1].value))
     # Gets us the row that has that item name.
     nextrow = ItemCell.row
     if not nextrow:
@@ -15,13 +15,21 @@ def move_location(MoveSheet, InventorySheet, NewRowIndex):
     # Find new SKU
     # Change this to reflect new doc info
     # Refer to new addition
-    Location = NewRow[2]
+    Location = NewRow[2].value
     Location_Inventory = InventorySheet.cell(nextrow, 5).value
 
+    ItemCellsCount = 0
+    InventoryRecords = InventorySheet.get_all_records()
+    for row in InventoryRecords:
+        if str(row["Name of item"]) == "SKU Generator":
+            ItemCellsCount = ItemCellsCount + 1
+        else:
+            break
+    LastLocationRow = ItemCellsCount + 1
     # Getting a list of all the possible locations
     # Change this if you are changing the number of locations by adjusting the range to match the cells where you
     # put all the locations in (one cell per location).
-    ItemCells = InventorySheet.range('B1:B14')
+    ItemCells = InventorySheet.range('E1:E'+str(LastLocationRow))
     # Initializing the variable that will hold the next SKU row number.
     NextSKUCell = None
     # Goes through each location and if there is a match with the location that want to move it to, it will find the

@@ -12,7 +12,15 @@ def new_removal(RemovalSheet, InventorySheet, newrow):
     # Get the SKU of the item that we are trying to remove a given quantity of.
     SKU = RemovalSheet.cell(newrow, 3).value
     # Get a list of SKUs that are in the inventory sheet.
-    SKUCells = InventorySheet.range('A15:A'+str(InventorySheet.row_count))
+    ItemCellsCount = 0
+    InventoryRecords = InventorySheet.get_all_records()
+    for row in InventoryRecords:
+        if str(row["Name of item"]) == "SKU Generator":
+            ItemCellsCount = ItemCellsCount + 1
+        else:
+            break
+    FirstItemRow = ItemCellsCount + 2
+    SKUCells = InventorySheet.range('A' + str(FirstItemRow) + ':A' + str(InventorySheet.row_count))
     # Runs a loop through each of the SKUs until we get a match. When we do get a match, we save the row number where
     # that SKU is at in the inventory sheet into the variable nextrow.
     for cell in SKUCells:
