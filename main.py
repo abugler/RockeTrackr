@@ -19,7 +19,7 @@ scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/au
     , "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
 creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
 client = gspread.authorize(creds)
-key = "1aiCgR4WLJ158oFP6uj61B0pftav3zxtSrL6bWUPVQog"
+key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 SpreadSheet = client.open_by_key(key)
 
 # These our all of the sheets we have in our Spreadsheet

@@ -2,7 +2,7 @@ import json
 import requests
 import sheet_helpers
 # change this with the webhook_url for the requested slack app
-webhook_url = 'https://hooks.slack.com/services/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'
+webhook_url = 'https://hooks.slack.com/services/XXXXXXXXXXXXXXXXXXXXXXXXXx'
 
 def post(json_data):
     # Takes json data, and makes a post request to slack
