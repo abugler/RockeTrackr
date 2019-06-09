@@ -26,7 +26,7 @@ def borrow_return(TrackingSheet, InventorySheet, NewRowIndex):
         # We update the quantity of the item to be whatever the EndValue turns out to be.
         InventorySheet.update_cell(ChangedItemCell.row, 4, EndValue)
         # Confirm to the user that they have successfully returned an item.
-        slack_notif.ReturnPost(NewRow[1].value, NewRow[3].value,
+        slack_notif.ReturnPost(NewRow[1].value, NewRow[4].value,
                                sheet_helpers.find_item_from_sku(InventorySheet, int(NewRow[2].value)).value)
     # Check if the intention of the user is to borrow an item.
     elif str(NewRow[3].value) == 'Borrowing':
@@ -39,5 +39,5 @@ def borrow_return(TrackingSheet, InventorySheet, NewRowIndex):
         # We update the quantity of the item to be whatever the EndValue turns out to be.
         InventorySheet.update_cell(ChangedItemCell.row, 4, EndValue)
         # Confirm to the user that they have successfully checked out an item.
-        slack_notif.BorrowPost(NewRow[1].value, NewRow[4].value,
+        slack_notif.BorrowPost(NewRow[1].value, NewRow[5].value,
                                sheet_helpers.find_item_from_sku(InventorySheet, int(NewRow[2].value)).value, NewRow[7].value)

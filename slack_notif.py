@@ -50,7 +50,7 @@ Send a Notification to a Slack App with the most recent removal.
 def RemovalPost(Quantity, Item, Reason):
     # Make a message saying that someone has removed an item in JSON data format.
     json_data = {
-        "text": str(Quantity) +" "+ str(Item) + " have been removed from the Garage, as they have been " + str(Reason) +"!"
+        "text": str(Quantity) + " " + str(Item) + " have been removed from the Garage, as they have been " + str(Reason) +"!"
     }
     # Send a notification over to Slack App with the message we just made.
     post(json_data)
@@ -61,7 +61,7 @@ Send a Notification to a Slack App with the most recent add.
 def AddedItemPost(Quantity, Item):
     # Make a message saying that someone has added an item in JSON data format.
     json_data = {
-        "text": str(Quantity) +" "+ str(Item) + " have been added to the Inventory."
+        "text": str(Quantity) + " " + str(Item) + " have been added to the Inventory."
     }
     # Send a notification over to Slack App with the message we just made.
     post(json_data)
